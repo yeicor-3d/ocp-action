@@ -1,0 +1,75 @@
+name: "Cadquery Action"
+description: "Builds and optionally renders cadquery models. It may also build a static website for GitHub Pages."
+inputs:
+  scripts:
+    description: "The |-separated scripts containing the model(s) to build."
+    required: true
+    default: "main.py"
+  formats:
+    description: "The |-separated formats in which to build the model(s), ."
+    required: false
+    default: "true"
+  website:
+    description: "Whether to build a static website for GitHub Pages."
+    required: false
+    default: "true"
+  website-screenshot:
+    description: "Whether to render the model(s), implies building a static website for GitHub Pages."
+    required: false
+    default: "true"
+outputs:
+  website-screenshot-link:
+    description: "The link to the rendered model(s)."
+    value: "${{ steps.website.outputs.website-screenshot-link }}"
+runs:
+  using: "composite"
+  steps:
+    - name: "Install cadquery"
+      shell: "bash"
+      run: "pip install cadquery"
+
+    - name: "Build model(s)"
+      shell: "bash"
+      run: |
+        CQ_ACTION_BUILD_DIR=$(mktemp -d)
+        # For each script...
+        for script in $(echo "${{ inputs.scripts }}" | tr "|" "\n"); do
+        
+          # Inject our import to define the show() function
+          sed -i '1s/^/from cadquery_action_api import *\n/' $script
+        
+          # Define environment variables for the script
+          CQ_ACTION_OUT_DIR="$CQ_ACTION_BUILD_DIR/$script"
+          while [ -e $CQ_ACTION_BUILD_DIR_MODEL ]; then # Avoid collisions
+              CQ_ACTION_OUT_DIR="CQ_ACTION_OUT_DIR/$script-$(date +%s)"
+          done
+          export CQ_ACTION_OUT_DIR
+          CQ_ACTION_SCRIPT_NAME="$script"
+          export CQ_ACTION_SCRIPT_NAME
+          CQ_ACTION_WANTED_FORMATS="${{ inputs.formats }}"
+          export CQ_ACTION_WANTED_FORMATS
+        
+          # Build the model(s)
+          python $script
+        
+        done
+        
+        echo "::set-output name=build-dir::$CQ_ACTION_BUILD_DIR"
+
+    - name: "Upload artifacts"
+      uses: "actions/upload-artifact@v3"
+      with:
+          name: "Built models"
+          path: "${{ steps.build.outputs.build-dir }}"
+
+    - name: "Build website"
+      if: "${{ inputs.website == 'true' }}"
+      shell: "bash"
+      run: |
+        # TODO: Build website
+
+    - name: "Render website"
+      if: "${{ inputs.website-screenshot == 'true' }}"
+      shell: "bash"
+      run: |
+        # TODO: Render website
