@@ -16,7 +16,8 @@ jobs:
       # Optional: Install your preferred Python version and dependencies and set up caches
       - uses: "actions/setup-python@v4"
         with:
-          cache: 'pip' # caching pip dependencies
+          python-version: "3.11"
+          cache: "pip"
 
       # Run the action
       - uses: "./" # Yeicor/cadquery-action@v#
