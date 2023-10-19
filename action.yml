@@ -41,9 +41,12 @@ runs:
       run: |
         set -ex
         
-        # Copy our API to the workspace
-        cp "${{ github.action_path }}/cadquery_action_api.py" "${{ github.workspace }}"
+        # Copy our API to the workspace (if not self-testing as it would be there already)
+        if [ "$(realpath "${{ github.action_path }}")" != "$(realpath "${{ github.workspace }}")" ]; then
+          cp "${{ github.action_path }}/cadquery_action_api.py" "${{ github.workspace }}"
+        fi
         
+        # Create a workspace for the models
         base_folder=$(mktemp -d)
         all_model_folders=""
         
