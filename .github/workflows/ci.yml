@@ -12,6 +12,6 @@ jobs:
 
       - uses: "actions/checkout@v4"
 
-      - uses: "."
+      - uses: "./action.yml"
         with:
           scripts: "demo.py"
