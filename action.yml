@@ -40,7 +40,7 @@ runs:
         
           # Define environment variables for the script
           CQ_ACTION_OUT_DIR="$CQ_ACTION_BUILD_DIR/$script"
-          while [ -e $CQ_ACTION_BUILD_DIR_MODEL ]; then # Avoid collisions
+          while [ -e $CQ_ACTION_BUILD_DIR_MODEL ]; do # Ensure unique directory
               CQ_ACTION_OUT_DIR="CQ_ACTION_OUT_DIR/$script-$(date +%s)"
           done
           export CQ_ACTION_OUT_DIR
