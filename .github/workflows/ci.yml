@@ -1,0 +1,17 @@
+
+on:
+  push:
+    branches:
+      - "main"
+  workflow_dispatch: {}
+
+jobs:
+  self-test:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - uses: "actions/checkout@v4"
+
+      - uses: "actions/cadquery-action@v0"
+        with:
+          scripts: "demo.py"

@@ -6,13 +6,13 @@ inputs:
     required: true
     default: "main.py"
   formats:
-    description: "The |-separated formats in which to build the model(s), ."
+    description: "The |-separated formats in which to build all model(s)."
     required: false
-    default: "true"
+    default: "STL|STEP|AMF|SVG|TJS|DXF|VRML|VTP|3MF"
   website:
-    description: "Whether to build a static website for GitHub Pages."
+    description: "Relative path where a static website to visualize the models using GitHub Pages will be built. Disabled if empty."
     required: false
-    default: "true"
+    default: "."
   website-screenshot:
     description: "Whether to render the model(s), implies building a static website for GitHub Pages."
     required: false
@@ -59,8 +59,8 @@ runs:
     - name: "Upload artifacts"
       uses: "actions/upload-artifact@v3"
       with:
-          name: "Built models"
-          path: "${{ steps.build.outputs.build-dir }}"
+        name: "Built models"
+        path: "${{ steps.build.outputs.build-dir }}"
 
     - name: "Build website"
       if: "${{ inputs.website == 'true' }}"
