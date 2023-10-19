@@ -12,6 +12,6 @@ jobs:
 
       - uses: "actions/checkout@v4"
 
-      - uses: "./action.yml"
+      - uses: "${{ github.repository }}"
         with:
           scripts: "demo.py"
