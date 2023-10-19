@@ -12,6 +12,6 @@ jobs:
 
       - uses: "actions/checkout@v4"
 
-      - uses: "actions/cadquery-action@v0"
+      - uses: "Yeicor/cadquery-action@v0"
         with:
           scripts: "demo.py"
