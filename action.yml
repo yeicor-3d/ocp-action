@@ -21,12 +21,16 @@ outputs:
   models:
     description: "The |-separated paths to the directory containing built model(s) from each script."
     value: "${{ steps.build.outputs.models }}"
-  website-screenshot-link:
-    description: "The public link to the rendered model(s) as a PNG."
+  website:
+    description: "The public link to the static website."
+    value: "${{ steps.website.outputs.website-link }}"
+  website-screenshot-link-base:
+    description: "The public link to the rendered model(s) as separate PNGs. Follows the same structure as the models output."
     value: "${{ steps.website.outputs.website-screenshot-link }}"
 runs:
   using: "composite"
   steps:
+
     - name: "Install cadquery"
       shell: "bash"
       run: "pip install -r requirements.txt"
@@ -36,6 +40,9 @@ runs:
       shell: "bash"
       run: |
         set -ex
+        
+        # Copy our API to the workspace
+        cp "${{ github.action_path }}/cadquery_action_api.py" "${{ github.workspace }}"
         
         base_folder=$(mktemp -d)
         all_model_folders=""
@@ -74,14 +81,20 @@ runs:
         name: "Built models"
         path: "${{ steps.build.outputs.models }}"
 
-    - name: "Build website"
+    - name: "Build and render website"
       if: "${{ inputs.website == 'true' }}"
       shell: "bash"
       run: |
-        # TODO: Build website
-
-    - name: "Render website"
-      if: "${{ inputs.website-screenshot == 'true' }}"
-      shell: "bash"
-      run: |
-        # TODO: Render website
+        set -ex
+        
+        models=$(echo "${{ steps.build.outputs.models }}" | tr "|" "\n")
+        
+        for model in $models; do
+          # TODO: Build a website for each model group
+          echo "TODO: Build a website for each model group"
+        done
+        
+        # TODO: Build a website for all models
+        echo "TODO: Build a website for all models"
+        
+               
