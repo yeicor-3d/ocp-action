@@ -29,7 +29,7 @@ runs:
   steps:
     - name: "Install cadquery"
       shell: "bash"
-      run: "pip install cadquery"
+      run: "pip install -r requirements.txt"
 
     - name: "Build model(s)"
       id: "build"
@@ -68,7 +68,7 @@ runs:
       uses: "actions/upload-artifact@v3"
       with:
         name: "Built models"
-        path: "${{ steps.build.outputs.build-dir }}"
+        path: "${{ steps.build.outputs.models }}"
 
     - name: "Build website"
       if: "${{ inputs.website == 'true' }}"
