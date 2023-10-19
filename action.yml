@@ -61,8 +61,12 @@ runs:
         # Remove the first | from the list
         all_model_folders=$(echo "$all_model_folders" | cut -c2-)
         
-        # Set the output, using an environment file
-        echo "models=$all_model_folders" >> "$GITHUB_OUTPUT"
+        # Set the output, which is the base folder unless there is only one model
+        if [ $(echo "$all_model_folders" | tr "|" "\n" | wc -l) -eq 1 ]; then
+          echo "models=$all_model_folders" >> "$GITHUB_OUTPUT"
+        else
+          echo "models=$base_folder" >> "$GITHUB_OUTPUT"
+        fi
 
     - name: "Upload artifacts"
       uses: "actions/upload-artifact@v3"
