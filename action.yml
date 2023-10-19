@@ -14,12 +14,12 @@ inputs:
     required: false
     default: "."
   website-screenshot:
-    description: "Whether to render the model(s), implies building a static website for GitHub Pages."
+    description: "Whether to render the model(s). The public link to the resulting PNG will be an output."
     required: false
     default: "true"
 outputs:
   website-screenshot-link:
-    description: "The link to the rendered model(s)."
+    description: "The public link to the rendered model(s) as a PNG."
     value: "${{ steps.website.outputs.website-screenshot-link }}"
 runs:
   using: "composite"
@@ -31,6 +31,7 @@ runs:
     - name: "Build model(s)"
       shell: "bash"
       run: |
+        set -ex
         CQ_ACTION_BUILD_DIR=$(mktemp -d)
         # For each script...
         for script in $(echo "${{ inputs.scripts }}" | tr "|" "\n"); do
@@ -40,9 +41,6 @@ runs:
         
           # Define environment variables for the script
           CQ_ACTION_OUT_DIR="$CQ_ACTION_BUILD_DIR/$script"
-          while [ -e $CQ_ACTION_BUILD_DIR_MODEL ]; do # Ensure unique directory
-              CQ_ACTION_OUT_DIR="CQ_ACTION_OUT_DIR/$script-$(date +%s)"
-          done
           export CQ_ACTION_OUT_DIR
           CQ_ACTION_SCRIPT_NAME="$script"
           export CQ_ACTION_SCRIPT_NAME

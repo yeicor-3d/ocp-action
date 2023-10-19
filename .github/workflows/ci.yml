@@ -13,9 +13,12 @@ jobs:
       # Checkout the repository
       - uses: "actions/checkout@v4"
 
-      # Optional: Install your preferred Python version and dependencies
+      # Optional: Install your preferred Python version and dependencies and set up caches
 
       # Run the action
-      - uses: "./"
+      - uses: "./" # Yeicor/cadquery-action@v#
         with:
           scripts: "demo.py"
+          # formats: "STL|STEP|AMF|SVG|TJS|DXF|VRML|VTP|3MF"
+          # website: "."
+          # website-screenshot: "true"
