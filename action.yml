@@ -18,6 +18,9 @@ inputs:
     required: false
     default: "true"
 outputs:
+  models:
+    description: "The |-separated paths to the directory containing built model(s) from each script."
+    value: "${{ steps.build.outputs.models }}"
   website-screenshot-link:
     description: "The public link to the rendered model(s) as a PNG."
     value: "${{ steps.website.outputs.website-screenshot-link }}"
@@ -29,10 +32,14 @@ runs:
       run: "pip install cadquery"
 
     - name: "Build model(s)"
+      id: "build"
       shell: "bash"
       run: |
         set -ex
-        CQ_ACTION_BUILD_DIR=$(mktemp -d)
+        
+        base_folder=$(mktemp -d)
+        all_model_folders=""
+        
         # For each script...
         for script in $(echo "${{ inputs.scripts }}" | tr "|" "\n"); do
         
@@ -40,19 +47,22 @@ runs:
           sed -i '1s/^/from cadquery_action_api import *\n/' $script
         
           # Define environment variables for the script
-          CQ_ACTION_OUT_DIR="$CQ_ACTION_BUILD_DIR/$script"
-          export CQ_ACTION_OUT_DIR
-          CQ_ACTION_SCRIPT_NAME="$script"
-          export CQ_ACTION_SCRIPT_NAME
-          CQ_ACTION_WANTED_FORMATS="${{ inputs.formats }}"
-          export CQ_ACTION_WANTED_FORMATS
+          export CQ_ACTION_OUT_DIR="$base_folder/$(basename "$script" .py)"
+          export CQ_ACTION_SCRIPT_NAME="$script"
+          export CQ_ACTION_WANTED_FORMATS="${{ inputs.formats }}"
         
           # Build the model(s)
           python $script
         
+          # Save the folder
+          all_model_folders="$all_model_folders|$CQ_ACTION_OUT_DIR"
         done
         
-        echo "::set-output name=build-dir::$CQ_ACTION_BUILD_DIR"
+        # Remove the first | from the list
+        all_model_folders=$(echo "$all_model_folders" | cut -c2-)
+        
+        # Set the output, using an environment file
+        echo "models=$all_model_folders" >> "$GITHUB_OUTPUT"
 
     - name: "Upload artifacts"
       uses: "actions/upload-artifact@v3"
