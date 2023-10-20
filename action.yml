@@ -228,11 +228,11 @@ runs:
         fi
         
         # Export the website root folder
-        echo "website-folder=$website_root_folder" >> "$GITHUB_OUTPUT"
+        echo "website-folder=$(realpath $website_root_folder)" >> "$GITHUB_OUTPUT"
         
     - name: "Publish website"
       if: "${{ inputs.website != '' }}"
-      uses: "JamesIves/github-pages-deploy-action@4.1.4"
+      uses: "JamesIves/github-pages-deploy-action@4"
       with:
         branch: "gh-pages"
         folder: "${{ steps.website.outputs.website-folder }}"
