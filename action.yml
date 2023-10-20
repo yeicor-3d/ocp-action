@@ -97,7 +97,7 @@ runs:
         cp -r "${{ steps.build.outputs.models-folder }}" "$website_folder/models"
         
         # Get all available glTF models as relative paths, and generate the HTML for them
-        gltf_models=$(cd "$website_folder" && find  -name "*.gltf" | sed 's,./,,g')
+        gltf_models=$(cd "$website_folder" && find  -name "*.gltf")
         models_html=""
         first_model_path=""
         first_model_poster_path=""
