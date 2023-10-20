@@ -232,7 +232,7 @@ runs:
         
     - name: "Publish website"
       if: "${{ inputs.website != '' }}"
-      uses: "JamesIves/github-pages-deploy-action@4"
+      uses: "JamesIves/github-pages-deploy-action@v4"
       with:
         branch: "gh-pages"
         folder: "${{ steps.website.outputs.website-folder }}"
