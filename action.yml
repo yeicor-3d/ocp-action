@@ -103,14 +103,14 @@ runs:
         first_model_poster_path=""
         for model_path in $gltf_models; do
           model_name=$(basename "$model_path" .gltf)
-          model_poster_path="$(echo "$model_name" | sed 's,.gltf,.svg,g')"
+          model_poster_path="$(echo "$model_path" | sed 's,.gltf,.svg,g')"
           selected=""
           if [ "$models_html" = "" ]; then
             selected=" selected"
             first_model_path="$model_path"
             first_model_poster_path="$model_poster_path"
           fi
-          models_html="$models_html<button class=\"slide$selected\" onclick=\"switchSrc(this, '$model_name')\" style=\"background-image: url('$model_poster_path');\"></button>"
+          models_html="$models_html<button class=\"slide$selected\" onclick=\"switchSrc(this, '$model_path')\" style=\"background-image: url('$model_poster_path');\"></button>"
         done
         
         # Build a website for all models
@@ -227,7 +227,8 @@ runs:
           find $website_folder
           for model_path in $gltf_models; do
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
-            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir=$(pwd)/chrome --headless=new --virtual-time-budget=5000 --screenshot="$(realpath $website_folder/$model_png_path)" "$website_folder/index.html?model=$model_path"
+            # TODO: ?model=$model_path
+            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir=$(pwd)/chrome --headless=new --virtual-time-budget=5000 --screenshot="$(realpath $website_folder/$model_png_path)" "$website_folder/index.html"
           done
         fi
         
