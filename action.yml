@@ -225,7 +225,7 @@ runs:
         if [ "${{ inputs.website-screenshot }}" = "true" ]; then
           sudo apt-get install chromium-browser
           for model_path in $gltf_models; do
-            model_png_path="$(echo "$model_name" | sed 's,.gltf,.png,g')"
+            model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
             chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir=$(pwd)/chrome --headless=new --virtual-time-budget=5000 --screenshot="$website_folder/$model_png_path" "$website_folder/index.html?model=$model_path"
           done
         fi
