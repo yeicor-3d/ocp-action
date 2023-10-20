@@ -21,12 +21,6 @@ outputs:
   models-folder:
     description: "The |-separated paths to the directory containing built model(s) from each script."
     value: "${{ steps.build.outputs.models-folder }}"
-  website:
-    description: "The public link to the static website."
-    value: "${{ steps.website.outputs.website-link }}"
-  website-screenshot-link-base:
-    description: "The public link to the rendered model(s) as separate PNGs. Follows the same structure as the models output."
-    value: "${{ steps.website.outputs.website-screenshot-link }}"
 runs:
   using: "composite"
   steps:
@@ -86,6 +80,7 @@ runs:
 
     - name: "Build and render website"
       if: "${{ inputs.website != '' }}"
+      id: "website"
       shell: "bash"
       run: |
         set -ex
@@ -228,6 +223,7 @@ runs:
           for model_path in $gltf_models; do
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
             chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir=$(pwd)/chrome --headless=new --virtual-time-budget=5000 --screenshot="test.png" "file://$(pwd)/$website_folder/index.html?model=$model_path"
+            mv "test.png" "$website_folder/$model_png_path"
           done
         fi
         
