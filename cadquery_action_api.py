@@ -26,16 +26,20 @@ def show_object(obj: Union[cq.Workplane, cq.Shape], name: Optional[str] = None,
         # Export the model in the wanted format
         model_name = f"{out_dir}/{name}.{fmt.lower()}"
         print(f"Exporting {model_name}...")
-        # noinspection PyTypeChecker
-        cq.exporters.export(obj, model_name, fmt)
 
-        # Fix SVG files forcing a white background
-        if fmt == "SVG":
-            with open(model_name, "r") as f:
-                svg = f.read()
-            with open(model_name, "w") as f:
-                f.write(svg.replace(
-                    "<g ", '<rect width="99999999%" height="99999999%" fill="white"/><g ', 1))
+        if fmt == "GLTF":  # Only assemblies support GLTF
+            cq.Assembly(obj).save(model_name)
+        else:  # Default export
+            # noinspection PyTypeChecker
+            cq.exporters.export(obj, model_name, fmt)
+
+            # Fix SVG files forcing a white background
+            if fmt == "SVG":
+                with open(model_name, "r") as f:
+                    svg = f.read()
+                with open(model_name, "w") as f:
+                    f.write(svg.replace(
+                        "<g ", '<rect width="99999999%" height="99999999%" fill="white"/><g ', 1))
 
 
 def show(*args, **kwargs) -> None:

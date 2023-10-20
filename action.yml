@@ -8,19 +8,19 @@ inputs:
   formats:
     description: "The |-separated formats in which to build all model(s)."
     required: false
-    default: "STL|STEP|AMF|SVG|TJS|DXF|VRML|VTP|3MF"
+    default: "STL|STEP|AMF|SVG|TJS|DXF|VRML|VTP|3MF|GLTF"
   website:
-    description: "Relative path where a static website to visualize the models using GitHub Pages will be built. Disabled if empty."
+    description: "Relative path where a static website to visualize the models using GitHub Pages will be built. Models and renders will be available at <website>/<models>/... Disabled if empty."
     required: false
     default: "."
   website-screenshot:
-    description: "Whether to render the model(s). The public link to the resulting PNG will be an output."
+    description: "Whether to render the model(s) as a screenshot of the website."
     required: false
     default: "true"
 outputs:
-  models:
+  models-folder:
     description: "The |-separated paths to the directory containing built model(s) from each script."
-    value: "${{ steps.build.outputs.models }}"
+    value: "${{ steps.build.outputs.models-folder }}"
   website:
     description: "The public link to the static website."
     value: "${{ steps.website.outputs.website-link }}"
@@ -73,31 +73,169 @@ runs:
         
         # Set the output, which is the base folder unless there is only one model
         if [ $(echo "$all_model_folders" | tr "|" "\n" | wc -l) -eq 1 ]; then
-          echo "models=$all_model_folders" >> "$GITHUB_OUTPUT"
+          echo "models-folder=$all_model_folders" >> "$GITHUB_OUTPUT"
         else
-          echo "models=$base_folder" >> "$GITHUB_OUTPUT"
+          echo "models-folder=$base_folder" >> "$GITHUB_OUTPUT"
         fi
 
     - name: "Upload artifacts"
       uses: "actions/upload-artifact@v3"
       with:
         name: "Built models"
-        path: "${{ steps.build.outputs.models }}"
+        path: "${{ steps.build.outputs.models-folder }}"
 
     - name: "Build and render website"
-      if: "${{ inputs.website == 'true' }}"
+      if: "${{ inputs.website != '' }}"
       shell: "bash"
       run: |
         set -ex
         
-        models=$(echo "${{ steps.build.outputs.models }}" | tr "|" "\n")
+        # Copy all models to the website folder, to provide persistent links to latest models
+        website_root_folder="$(mktemp -d)/${{ inputs.website }}"
+        website_folder="$(mktemp -d)/${{ inputs.website }}"
+        mkdir -p "$website_folder/models"
+        cp -r "${{ steps.build.outputs.models-folder }}" "$website_folder/models"
         
-        for model in $models; do
-          # TODO: Build a website for each model group
-          echo "TODO: Build a website for each model group"
+        # Get all available glTF models as relative paths, and generate the HTML for them
+        gltf_models=$(cd "$website_folder" && find  -name "*.gltf" | sed 's,./,,g')
+        models_html=""
+        first_model_path=""
+        first_model_poster_path=""
+        for model_path in $gltf_models; do
+          model_name=$(basename "$model_path" .gltf)
+          model_poster_path="$(echo "$model_name" | sed 's,.gltf,.svg,g')"
+          selected=""
+          if [ "$models_html" = "" ]; then
+            selected=" selected"
+            first_model_path="$model_path"
+            first_model_poster_path="$model_poster_path"
+          fi
+          models_html="$models_html<button class=\"slide$selected\" onclick=\"switchSrc(this, '$model_name')\" style=\"background-image: url('$model_poster_path');\"></button>"
         done
         
-        # TODO: Build a website for all models
-        echo "TODO: Build a website for all models"
+        # Build a website for all models
+        cat >"$website_folder/index.html" <<EOF
+        <!DOCTYPE html>
+        <html>
+          <!-- Based on https://modelviewer.dev/examples/augmentedreality/ -->
+          <head>
+            <title>3D Models</title>
+            <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+            <style>
+              model-viewer { width: 100vw; height: 100vh; }
+              body { margin: 0; overflow: hidden; }
+            </style>
+          </head>
+          <body>
+            <model-viewer 
+              src="assembly.gltf" ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1" 
+              auto-rotate camera-orbit="45deg 60deg 50m" field-of-view="30deg"
+              environment-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr" 
+              skybox-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr">
+              <div class="slider">
+                <div class="slides">
+                  <!--<button class="slide selected" onclick="switchSrc(this, '.../Chair.gltf')" style="background-image: url('.../Chair.webp');"></button>-->
+                  <!--<button class="slide" onclick="switchSrc(this, '.../Mixer.gltf')" style="background-image: url('.../Mixer.webp');"></button>-->
+                  ${models_html}
+                </div>
+              </div>
+            </model-viewer>
+            <script type="module">
+              const modelViewer = document.querySelector("model-viewer");
+              window.switchSrc = (element, path) => {
+                // const path = "../../assets/ShopifyModels/" + name;
+                modelViewer.src = path;
+                modelViewer.poster = path.replace(".gltf", ".svg");
+                const slides = document.querySelectorAll(".slide");
+                slides.forEach((element) => {element.classList.remove("selected");});
+                element.classList.add("selected");
+              };
+              // If a model is given in the URL, load it
+              const urlParams = new URLSearchParams(window.location.search);
+              const model = urlParams.get("model");
+              if (model) {
+                element = document.querySelectorAll(".slide").forEach((element) => {
+                  if (element..getAttribute("onclick").includes(model)) {
+                    switchSrc(element, model);
+                  }
+                });
+              }
+            </script>
+            <style>
+              /* This keeps child nodes hidden while the element loads */
+              :not(:defined) > * {
+                display: none;
+              }
+              model-viewer {
+                background-color: #eee;
+                overflow-x: hidden;
+              }
+              @keyframes circle {
+                from { transform: translateX(-50%) rotate(0deg) translateX(50px) rotate(0deg); }
+                to   { transform: translateX(-50%) rotate(360deg) translateX(50px) rotate(-360deg); }
+              }
+              @keyframes elongate {
+                from { transform: translateX(100px); }
+                to   { transform: translateX(-100px); }
+              }
+              .slider {
+                width: 100%;
+                text-align: center;
+                overflow: hidden;
+                position: absolute;
+                bottom: 16px;
+              }
+              .slides {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+              }
+              .slide {
+                scroll-snap-align: start;
+                flex-shrink: 0;
+                width: 100px;
+                height: 100px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-color: #fff;
+                margin-right: 10px;
+                border-radius: 10px;
+                border: none;
+                display: flex;
+              }
+              .slide.selected {
+                border: 2px solid #4285f4;
+              }
+              .slide:focus {
+                outline: none;
+              }
+              .slide:focus-visible {
+                outline: 1px solid #4285f4;
+              }
+            </style>
+          </body>
+        </html>
+        EOF
         
-               
+        # Generate a screenshot of the static site for each of the models
+        if [ "${{ inputs.website-screenshot }}" = "true" ]; then
+          sudo apt-get install chromium-browser
+          for model_path in $gltf_models; do
+            model_png_path="$(echo "$model_name" | sed 's,.gltf,.png,g')"
+            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir=$(pwd)/chrome --headless=new --virtual-time-budget=5000 --screenshot="$website_folder/$model_png_path" "$website_folder/index.html?model=$model_path"
+          done
+        fi
+        
+        # Export the website root folder
+        echo "website-folder=$website_root_folder" >> "$GITHUB_OUTPUT"
+        
+    - name: "Publish website"
+      if: "${{ inputs.website != '' }}"
+      uses: "JamesIves/github-pages-deploy-action@4.1.4"
+      with:
+        branch: "gh-pages"
+        folder: "${{ steps.website.outputs.website-folder }}"

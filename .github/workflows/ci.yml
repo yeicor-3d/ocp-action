@@ -23,6 +23,6 @@ jobs:
       - uses: "./" # Yeicor/cadquery-action@v#
         with:
           scripts: "demo.py"
-          # formats: "STL|STEP|AMF|SVG|TJS|DXF|VRML|VTP|3MF"
+          # formats: "STL|STEP|AMF|SVG|TJS|DXF|VRML|VTP|3MF|GLTF"
           # website: "."
           # website-screenshot: "true"
