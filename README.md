@@ -17,4 +17,5 @@ the [CQ-editor](https://github.com/CadQuery/CQ-editor).
 This repository also serves as a demo. See [demo.py](demo.py) and the [workflow](.github/workflows/ci.yml) for more
 details.
 
-TODO: Website link and screenshot
+[![Demo](https://yeicor.github.io/cadquery-action/models/demo/model.png)](https://yeicor.github.io/cadquery-action/)
+[![Demo](https://yeicor.github.io/cadquery-action/models/demo/model.svg)](https://yeicor.github.io/cadquery-action/)
