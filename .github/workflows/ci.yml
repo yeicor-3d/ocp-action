@@ -7,6 +7,7 @@ on:
 
 jobs:
   self-test:
+    name: "Self-test for demo.py"
     runs-on: "ubuntu-latest"
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
