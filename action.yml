@@ -229,6 +229,7 @@ runs:
             # file://./?model=$model_path
             mv "test.png" "$website_folder/$model_png_path"
           done
+          rm -rf "$website_folder/chrome"
         fi
         
         # Copy website content to the models folder

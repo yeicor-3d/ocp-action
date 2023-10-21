@@ -10,7 +10,7 @@ the [CQ-editor](https://github.com/CadQuery/CQ-editor).
 - No boilerplate: use the same code from the [CQ-editor](https://github.com/CadQuery/CQ-editor) and in your CI/CD
   pipeline.
 - Build a static website to showcase your latest model(s) automatically.
-- WIP: Take a screenshot of your model(s) and use it as a preview image.
+- Take a screenshot of your model(s) and use it as a preview image.
 
 ## Usage
 
