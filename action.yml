@@ -85,7 +85,7 @@ runs:
         website_root_folder="$(mktemp -d)"
         website_folder="$(realpath "$website_root_folder/${{ inputs.website }}")"
         mkdir -p "$website_folder/models"
-        cp -r "${{ steps.build.outputs.models-folder }}" "$website_folder/models"
+        cp -r "${{ steps.build.outputs.models-folder }}/" "$website_folder/models"
         
         # Get all available glTF models as relative paths, and generate the HTML for them
         gltf_models=$(cd "$website_folder" && find  -name "*.gltf")
