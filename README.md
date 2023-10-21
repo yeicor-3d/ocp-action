@@ -9,7 +9,7 @@ the [CQ-editor](https://github.com/CadQuery/CQ-editor).
 - Automatically build the latest version of your model(s) for release.
 - No boilerplate: use the same code from the [CQ-editor](https://github.com/CadQuery/CQ-editor) and in your CI/CD
   pipeline.
-- WIP: Build a static website to showcase your latest model(s) automatically.
+- Build a static website to showcase your latest model(s) automatically.
 - WIP: Take a screenshot of your model(s) and use it as a preview image.
 
 ## Usage
