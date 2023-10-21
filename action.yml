@@ -41,6 +41,7 @@ runs:
         fi
         
         # Create a workspace for the models
+        export TMPDIR=$PWD
         base_folder=$(mktemp -d)
         chmod -R +rX "$base_folder" # Fix permissions
         all_model_folders=""
@@ -83,6 +84,7 @@ runs:
         set -ex
         
         # Copy all models to the website folder, to provide persistent links to latest models
+        export TMPDIR=$PWD
         website_root_folder="$(mktemp -d)"
         chmod -R +rX "$website_root_folder" # Fix permissions
         website_folder="$(realpath "$website_root_folder/${{ inputs.website }}")"
@@ -233,7 +235,6 @@ runs:
         cp -r "$website_folder/" "${{ steps.build.outputs.models-folder }}"
         
         # Export the website root folder, fixing permissions first
-        chmod -R +rX "$website_root_folder"
         echo "website-folder=$website_root_folder" >> "$GITHUB_OUTPUT"
 
     # Boilerplate to deploy the website to GitHub Pages:
