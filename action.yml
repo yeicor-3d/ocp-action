@@ -19,7 +19,7 @@ inputs:
     default: "true"
 outputs:
   models-folder:
-    description: "The |-separated paths to the directory containing built model(s) from each script."
+    description: "The root folders containing all built models, including the website if built."
     value: "${{ steps.build.outputs.models-folder }}"
 runs:
   using: "composite"
@@ -65,12 +65,8 @@ runs:
         # Remove the first | from the list
         all_model_folders=$(echo "$all_model_folders" | cut -c2-)
         
-        # Set the output, which is the base folder unless there is only one model
-        if [ $(echo "$all_model_folders" | tr "|" "\n" | wc -l) -eq 1 ]; then
-          echo "models-folder=$all_model_folders" >> "$GITHUB_OUTPUT"
-        else
-          echo "models-folder=$base_folder" >> "$GITHUB_OUTPUT"
-        fi
+        # Set the output as the base folder
+        echo "models-folder=$base_folder" >> "$GITHUB_OUTPUT"
 
     - name: "Upload artifacts"
       uses: "actions/upload-artifact@v3"
@@ -227,12 +223,19 @@ runs:
           done
         fi
         
+        # Copy website content to the models folder
+        cp -r "$website_folder" "${{ steps.build.outputs.models-folder }}"
+        
         # Export the website root folder
         echo "website-folder=$(realpath $website_root_folder)" >> "$GITHUB_OUTPUT"
-        
-    - name: "Publish website"
+
+    - name: "Upload artifact for GitHub Pages"
       if: "${{ inputs.website != '' }}"
-      uses: "JamesIves/github-pages-deploy-action@v4"
+      uses: "actions/upload-artifact@v3"
       with:
-        branch: "gh-pages"
-        folder: "${{ steps.website.outputs.website-folder }}"
+          name: "github-pages" # For actions/deploy-pages
+          path: "${{ steps.website.outputs.website-folder }}"
+
+    - name: "Deploy to GitHub Pages"
+      if: "${{ inputs.website != '' }}"
+      uses: "actions/deploy-pages@v2"
