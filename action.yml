@@ -234,6 +234,12 @@ runs:
     - name: "Setup Pages"
       if: "${{ inputs.website != '' }}"
       uses: "actions/configure-pages@v3"
+    - name: "Fix permissions"
+      shell: "bash"
+      run: |
+        chmod -c -R +rX "${{ steps.website.outputs.website-folder }}" | while read line; do
+          echo "::warning title=Invalid file permissions automatically fixed::$line"
+        done
     - name: "Upload website as an artifact"
       if: "${{ inputs.website != '' }}"
       uses: "actions/upload-pages-artifact@v2"
