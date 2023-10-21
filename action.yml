@@ -230,13 +230,9 @@ runs:
         # Export the website root folder
         echo "website-folder=$website_root_folder" >> "$GITHUB_OUTPUT"
         
-    - name: "Upload artifact for GitHub Pages"
+    - name: "Upload website to GitHub Pages"
       if: "${{ inputs.website != '' }}"
       uses: "actions/upload-pages-artifact@v2"
       with:
         name: "github-pages" # For actions/deploy-pages
         path: "${{ steps.website.outputs.website-folder }}"
-
-    - name: "Deploy to GitHub Pages"
-      if: "${{ inputs.website != '' }}"
-      uses: "actions/deploy-pages@v2"
