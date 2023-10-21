@@ -120,7 +120,8 @@ runs:
           </head>
           <body>
             <model-viewer 
-              src="assembly.gltf" ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1" 
+              src="${first_model_path}" poster="${first_model_poster_path}"
+              ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1" 
               auto-rotate camera-orbit="45deg 60deg 50m" field-of-view="30deg"
               environment-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr" 
               skybox-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr">
@@ -148,7 +149,7 @@ runs:
               if (model) {
                 element = document.querySelectorAll(".slide").forEach((element) => {
                   if (element..getAttribute("onclick").includes(model)) {
-                    switchSrc(element, model);
+                    window.switchSrc(element, model);
                   }
                 });
               }
