@@ -85,7 +85,7 @@ runs:
         website_root_folder="$(mktemp -d)"
         website_folder="$(realpath "$website_root_folder/${{ inputs.website }}")"
         mkdir -p "$website_folder/models"
-        cp -r "${{ steps.build.outputs.models-folder }}/" "$website_folder/models"
+        cp -r "${{ steps.build.outputs.models-folder }}/"* "$website_folder/models"
         
         # Get all available glTF models as relative paths, and generate the HTML for them
         gltf_models=$(cd "$website_folder" && find  -name "*.gltf")
@@ -227,19 +227,14 @@ runs:
         # Copy website content to the models folder
         cp -r "$website_folder/" "${{ steps.build.outputs.models-folder }}"
         
-        # Export the website root folder
+        # Export the website root folder, fixing permissions first
+        chmod -R +rX "$website_root_folder"
         echo "website-folder=$website_root_folder" >> "$GITHUB_OUTPUT"
 
     # Boilerplate to deploy the website to GitHub Pages:
     - name: "Setup Pages"
       if: "${{ inputs.website != '' }}"
       uses: "actions/configure-pages@v3"
-    - name: "Fix permissions"
-      shell: "bash"
-      run: |
-        chmod -c -R +rX "${{ steps.website.outputs.website-folder }}" | while read line; do
-          echo "::warning title=Invalid file permissions automatically fixed::$line"
-        done
     - name: "Upload website as an artifact"
       if: "${{ inputs.website != '' }}"
       uses: "actions/upload-pages-artifact@v2"
