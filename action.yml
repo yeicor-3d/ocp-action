@@ -42,6 +42,7 @@ runs:
         
         # Create a workspace for the models
         base_folder=$(mktemp -d)
+        chmod -R +rX "$base_folder" # Fix permissions
         all_model_folders=""
         
         # For each script...
@@ -83,6 +84,7 @@ runs:
         
         # Copy all models to the website folder, to provide persistent links to latest models
         website_root_folder="$(mktemp -d)"
+        chmod -R +rX "$website_root_folder" # Fix permissions
         website_folder="$(realpath "$website_root_folder/${{ inputs.website }}")"
         mkdir -p "$website_folder/models"
         cp -r "${{ steps.build.outputs.models-folder }}/"* "$website_folder/models"
@@ -219,7 +221,7 @@ runs:
           find $website_folder
           for model_path in $gltf_models; do
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
-            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir="$(mktemp -d)/chrome" \
+            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir="$website_folder/chrome" \
               --headless=new --virtual-time-budget=5000 --screenshot="test.png" \
               "$website_folder/index.html"
             # file://./?model=$model_path
