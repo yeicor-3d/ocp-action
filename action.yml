@@ -148,7 +148,7 @@ runs:
               const model = urlParams.get("model");
               if (model) {
                 element = document.querySelectorAll(".slide").forEach((element) => {
-                  if (element..getAttribute("onclick").includes(model)) {
+                  if (element.getAttribute("onclick").includes(model)) {
                     window.switchSrc(element, model);
                   }
                 });
