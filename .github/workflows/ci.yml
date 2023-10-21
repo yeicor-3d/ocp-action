@@ -19,6 +19,8 @@ jobs:
       name: "github-pages"
       url: "${{ steps.deployment.outputs.page_url }}"
 
+    # WARNING: You also need to go to Settings > Pages and set the source to "GitHub Actions"
+
     steps:
 
       # Checkout your repository

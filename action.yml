@@ -227,11 +227,11 @@ runs:
         cp -r "$website_folder" "${{ steps.build.outputs.models-folder }}"
         
         # Export the website root folder
-        echo "website-folder=$(realpath $website_root_folder)" >> "$GITHUB_OUTPUT"
+        echo "website-folder=$website_root_folder" >> "$GITHUB_OUTPUT"
 
     - name: "Upload artifact for GitHub Pages"
       if: "${{ inputs.website != '' }}"
-      uses: "actions/upload-artifact@v3"
+      uses: "actions/upload-pages-artifact@v1"
       with:
           name: "github-pages" # For actions/deploy-pages
           path: "${{ steps.website.outputs.website-folder }}"
