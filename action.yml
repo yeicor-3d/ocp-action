@@ -217,18 +217,14 @@ runs:
         if [ "${{ inputs.website-screenshot }}" = "true" ]; then
           sudo apt-get install chromium-browser
           find $website_folder
-          prev_dir="$(pwd)"
-          cd "$website_folder"
           for model_path in $gltf_models; do
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
-            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir=./chrome \
+            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir="$(mktemp -d)/chrome" \
               --headless=new --virtual-time-budget=5000 --screenshot="test.png" \
-              "index.html"
-            rm "./chrome"
+              "$website_folder/index.html"
             # file://./?model=$model_path
             mv "test.png" "$website_folder/$model_png_path"
           done
-          cd "$prev_dir"
         fi
         
         # Copy website content to the models folder
