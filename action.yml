@@ -241,4 +241,4 @@ runs:
         path: "${{ steps.website.outputs.website-folder }}"
     - name: "Deploy website artifact to GitHub Pages"
       if: "${{ inputs.website != '' }}"
-      uses: "actions/deploy-pages@v4"
+      uses: "actions/deploy-pages@v2"
