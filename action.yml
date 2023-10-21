@@ -221,9 +221,10 @@ runs:
           cd "$website_folder"
           for model_path in $gltf_models; do
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
-            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir=$(mktemp -d)/chrome \
+            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir=./chrome \
               --headless=new --virtual-time-budget=5000 --screenshot="test.png" \
               "index.html"
+            rm "./chrome"
             # file://./?model=$model_path
             mv "test.png" "$website_folder/$model_png_path"
           done
