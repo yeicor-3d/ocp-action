@@ -229,10 +229,16 @@ runs:
         
         # Export the website root folder
         echo "website-folder=$website_root_folder" >> "$GITHUB_OUTPUT"
-        
-    - name: "Upload website to GitHub Pages"
+
+    # Boilerplate to deploy the website to GitHub Pages:
+    - name: "Setup Pages"
+      if: "${{ inputs.website != '' }}"
+      uses: "actions/configure-pages@v3"
+    - name: "Upload website as an artifact"
       if: "${{ inputs.website != '' }}"
       uses: "actions/upload-pages-artifact@v2"
       with:
-        name: "github-pages" # For actions/deploy-pages
         path: "${{ steps.website.outputs.website-folder }}"
+    - name: "Deploy website artifact to GitHub Pages"
+      if: "${{ inputs.website != '' }}"
+      uses: "actions/deploy-pages@v4"
