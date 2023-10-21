@@ -225,8 +225,7 @@ runs:
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
             chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir="$website_folder/chrome" \
               --headless=new --virtual-time-budget=5000 --screenshot="test.png" \
-              "$website_folder/index.html"
-            # file://./?model=$model_path
+              "file://$website_folder/index.html?model=$model_path"
             mv "test.png" "$website_folder/$model_png_path"
           done
           rm -rf "$website_folder/chrome"
