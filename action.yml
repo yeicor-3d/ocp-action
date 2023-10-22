@@ -35,10 +35,6 @@ runs:
       run: |
         set -ex
         
-        # Copy our API to the workspace
-        if [ "$(realpath "${{ github.action_path }}")" != "$(realpath "${{ github.workspace }}")" ]; then
-        fi
-        
         # Create a workspace for the models
         export TMPDIR=$PWD
         base_folder=$(mktemp -d)
@@ -159,7 +155,7 @@ runs:
               const urlParams = new URLSearchParams(window.location.search);
               const model = urlParams.get("model");
               if (model) {
-                element = document.querySelectorAll(".slide").forEach((element) => {
+                document.querySelectorAll(".slide").forEach((element) => {
                   if (element.getAttribute("onclick").includes(model)) {
                     window.switchSrc(element, model);
                   }
