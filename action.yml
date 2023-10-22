@@ -130,7 +130,7 @@ runs:
             <model-viewer 
               src="${first_model_path}" poster="${first_model_poster_path}"
               ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1" 
-              auto-rotate camera-orbit="-30deg 60deg auto" field-of-view="30deg"
+              auto-rotate camera-orbit="-20deg 70deg auto" field-of-view="30deg"
               environment-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr" 
               skybox-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr">
               <effect-composer render-mode="quality">
