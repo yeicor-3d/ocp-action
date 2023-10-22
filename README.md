@@ -20,7 +20,8 @@ The only requirements are a python script to build the model and a [workflow](.g
 action.
 
 You can use links similar to the following sections to embed your model in your README.md and point to the interactive
-model viewer. The latest models can be downloaded from the [build artifacts](./actions).
+model viewer. The latest models can be downloaded from
+the [build artifacts](https://github.com/yeicor/cadquery-action/actions).
 
 ### Demo: [box.py](demos/box.py)
 
