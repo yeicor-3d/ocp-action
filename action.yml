@@ -130,9 +130,13 @@ runs:
             <model-viewer 
               src="${first_model_path}" poster="${first_model_poster_path}"
               ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1" 
-              auto-rotate camera-orbit="-25deg 60deg auto" field-of-view="30deg"
+              auto-rotate camera-orbit="-15deg 75deg auto" field-of-view="30deg"
               environment-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr" 
               skybox-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr">
+              <effect-composer render-mode="quality">
+                <ssao-effect></ssao-effect>
+                <smaa-effect></smaa-effect>
+              </effect-composer>
               <div class="slider">
                 <div class="slides">
                   <!--<button class="slide selected" onclick="switchSrc(this, '.../Chair.gltf')" style="background-image: url('.../Chair.webp');"></button>-->
