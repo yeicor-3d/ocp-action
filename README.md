@@ -21,7 +21,7 @@ action.
 
 You can use links similar to the following sections to embed your model in your README.md and point to the interactive
 model viewer. The latest models can be downloaded from
-the [build artifacts](https://github.com/yeicor/cadquery-action/actions).
+the [build artifacts](https://github.com/Yeicor/cadquery-action/actions/workflows/ci.yml).
 
 ### Demo: [box.py](demos/box.py)
 
