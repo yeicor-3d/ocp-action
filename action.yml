@@ -35,9 +35,8 @@ runs:
       run: |
         set -ex
         
-        # Copy our API to the workspace (if not self-testing as it would be there already)
+        # Copy our API to the workspace
         if [ "$(realpath "${{ github.action_path }}")" != "$(realpath "${{ github.workspace }}")" ]; then
-          cp "${{ github.action_path }}/cadquery_action_api.py" "${{ github.workspace }}"
         fi
         
         # Create a workspace for the models
@@ -49,8 +48,11 @@ runs:
         # For each script...
         for script in $(echo "${{ inputs.scripts }}" | tr "|" "\n"); do
         
+          # Copy the library to the script's folder
+          cp "${{ github.action_path }}/cadquery_action_api.py" "$(dirname "$script")"
+        
           # Inject our import to define the show() function
-          sed -i '1s/^/from cadquery_action_api import *\n/' $script
+          sed -i '1s/^/from .cadquery_action_api import *\n/' $script
         
           # Define environment variables for the script
           export CQ_ACTION_OUT_DIR="$base_folder/$(basename "$script" .py)"

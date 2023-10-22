@@ -14,8 +14,23 @@ the [CQ-editor](https://github.com/CadQuery/CQ-editor).
 
 ## Usage
 
-This repository also serves as a demo. See [demo.py](demo.py) and the [workflow](.github/workflows/ci.yml) for more
-details.
+This repository also serves as a demo. A repository that uses this action only needs the python scripts for generating
+the models, like the ones in [demos](demos) and the [workflow](.github/workflows/ci.yml).
 
-[![Demo](https://yeicor.github.io/cadquery-action/models/demo/model.png)](https://yeicor.github.io/cadquery-action/)
-[![Demo](https://yeicor.github.io/cadquery-action/models/demo/model.svg)](https://yeicor.github.io/cadquery-action/)
+### Demo: [box.py](demos/box.py)
+
+[![Demo](https://yeicor.github.io/cadquery-action/models/demos/simple_box.png)](https://yeicor.github.io/cadquery-action/)
+
+![Demo](https://yeicor.github.io/cadquery-action/models/demos/simple_box.svg)
+
+### Demo: [cycloidal_gear.py](demos/cycloidal_gear.py)
+
+[![Demo](https://yeicor.github.io/cadquery-action/models/demos/cycloidal_gear.png)](https://yeicor.github.io/cadquery-action/?model=models/demos/cycloidal_gear.gltf)
+
+![Demo](https://yeicor.github.io/cadquery-action/models/demos/cycloidal_gear.svg)
+
+### Demo: [parametric_enclosure.py](demos/parametric_enclosure.py)
+
+[![Demo](https://yeicor.github.io/cadquery-action/models/demos/parametric_enclosure.png)](https://yeicor.github.io/cadquery-action/?model=models/demos/parametric_enclosure.gltf)
+
+![Demo](https://yeicor.github.io/cadquery-action/models/demos/parametric_enclosure.svg)
