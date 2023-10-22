@@ -95,8 +95,8 @@ runs:
           poster_extension="png"
         fi
         
-        # Get all available glTF models as relative paths, and generate the HTML for them
-        gltf_models=$(cd "$website_folder" && find  -name "*.gltf")
+        # Get all available glTF models as relative paths (sorted by modification date), and generate the HTML for them
+        gltf_models=$(cd "$website_folder" && find  -name "*.gltf" -printf "%T@\t%p\n" | sort -n | cut -f 2-)
         models_html=""
         first_model_path=""
         first_model_poster_path=""
@@ -130,7 +130,7 @@ runs:
             <model-viewer 
               src="${first_model_path}" poster="${first_model_poster_path}"
               ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1" 
-              auto-rotate camera-orbit="45deg 60deg 50m" field-of-view="30deg"
+              auto-rotate camera-orbit="45deg 60deg auto" field-of-view="30deg"
               environment-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr" 
               skybox-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr">
               <div class="slider">
@@ -228,7 +228,7 @@ runs:
           for model_path in $gltf_models; do
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
             chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir="$website_folder/__chrome" \
-              --headless=new --virtual-time-budget=5000 --screenshot="test.png" \
+              --headless=new --virtual-time-budget=5000 --timeout=15000 --screenshot="test.png" \
               "file://$website_folder/index.html?model=$model_path"
             mv "test.png" "$website_folder/$model_png_path"
           done

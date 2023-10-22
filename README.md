@@ -19,7 +19,7 @@ the models, like the ones in [demos](demos) and the [workflow](.github/workflows
 
 ### Demo: [box.py](demos/box.py)
 
-[![Demo](https://yeicor.github.io/cadquery-action/models/demos/box/simple_box.png)](https://yeicor.github.io/cadquery-action/)
+[![Demo](https://yeicor.github.io/cadquery-action/models/demos/box/simple_box.png)](https://yeicor.github.io/cadquery-action/?model=models/demos/box/simple_box.gltf)
 
 ![Demo](https://yeicor.github.io/cadquery-action/models/demos/box/simple_box.svg)
 
