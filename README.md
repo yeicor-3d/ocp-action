@@ -19,18 +19,22 @@ the models, like the ones in [demos](demos) and the [workflow](.github/workflows
 
 ### Demo: [box.py](demos/box.py)
 
-[![Demo](https://yeicor.github.io/cadquery-action/models/demos/simple_box.png)](https://yeicor.github.io/cadquery-action/)
+[![Demo](https://yeicor.github.io/cadquery-action/models/demos/box/simple_box.png)](https://yeicor.github.io/cadquery-action/)
 
-![Demo](https://yeicor.github.io/cadquery-action/models/demos/simple_box.svg)
+![Demo](https://yeicor.github.io/cadquery-action/models/demos/box/simple_box.svg)
 
 ### Demo: [cycloidal_gear.py](demos/cycloidal_gear.py)
 
-[![Demo](https://yeicor.github.io/cadquery-action/models/demos/cycloidal_gear.png)](https://yeicor.github.io/cadquery-action/?model=models/demos/cycloidal_gear.gltf)
+[![Demo](https://yeicor.github.io/cadquery-action/models/demos/cycloidal_gear/cycloidal_gear.png)](https://yeicor.github.io/cadquery-action/?model=models/demos/cycloidal_gear/cycloidal_gear.gltf)
 
-![Demo](https://yeicor.github.io/cadquery-action/models/demos/cycloidal_gear.svg)
+![Demo](https://yeicor.github.io/cadquery-action/models/demos/cycloidal_gear/cycloidal_gear.svg)
 
 ### Demo: [parametric_enclosure.py](demos/parametric_enclosure.py)
 
-[![Demo](https://yeicor.github.io/cadquery-action/models/demos/parametric_enclosure.png)](https://yeicor.github.io/cadquery-action/?model=models/demos/parametric_enclosure.gltf)
+[![Demo](https://yeicor.github.io/cadquery-action/models/demos/parametric_enclosure/topOfLid.png)](https://yeicor.github.io/cadquery-action/?model=models/demos/parametric_enclosure/topOfLid.gltf)
 
-![Demo](https://yeicor.github.io/cadquery-action/models/demos/parametric_enclosure.svg)
+[![Demo](https://yeicor.github.io/cadquery-action/models/demos/parametric_enclosure/debug-bottom.png)](https://yeicor.github.io/cadquery-action/?model=models/demos/parametric_enclosure/debug-bottom.gltf)
+
+![Demo](https://yeicor.github.io/cadquery-action/models/demos/parametric_enclosure/topOfLid.svg)
+
+![Demo](https://yeicor.github.io/cadquery-action/models/demos/parametric_enclosure/debug-bottom.svg)
