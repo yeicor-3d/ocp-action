@@ -14,8 +14,13 @@ the [CQ-editor](https://github.com/CadQuery/CQ-editor).
 
 ## Usage
 
-This repository also serves as a demo. A repository that uses this action only needs the python scripts for generating
-the models, like the ones in [demos](demos) and the [workflow](.github/workflows/ci.yml).
+This repository also serves as a demo.
+
+The only requirements are a python script to build the model and a [workflow](.github/workflows/ci.yml) to run the
+action.
+
+You can use links similar to the following sections to embed your model in your README.md and point to the interactive
+model viewer. The latest models can be downloaded from the [build artifacts](./actions).
 
 ### Demo: [box.py](demos/box.py)
 

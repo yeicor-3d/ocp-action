@@ -5,8 +5,8 @@ on:
   workflow_dispatch: { }
 
 jobs:
-  self-test:
-    name: "Self-test for demo.py"
+  build-models:
+    name: "Build demo models"
     runs-on: "ubuntu-latest"
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
