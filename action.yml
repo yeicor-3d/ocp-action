@@ -130,7 +130,7 @@ runs:
             <model-viewer 
               src="${first_model_path}" poster="${first_model_poster_path}"
               ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1" 
-              auto-rotate camera-orbit="45deg 60deg auto" field-of-view="30deg"
+              auto-rotate camera-orbit="-25deg 60deg auto" field-of-view="30deg"
               environment-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr" 
               skybox-image="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rural_asphalt_road_1k.hdr">
               <div class="slider">
@@ -161,6 +161,10 @@ runs:
                   }
                 });
               }
+              const noSlider = urlParams.get("noSlider");
+                if (noSlider) {
+                    document.querySelector(".slider").style.display = "none";
+                }
             </script>
             <style>
               /* This keeps child nodes hidden while the element loads */
@@ -228,8 +232,8 @@ runs:
           for model_path in $gltf_models; do
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
             chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir="$website_folder/__chrome" \
-              --headless=new --virtual-time-budget=5000 --timeout=15000 --screenshot="test.png" \
-              "file://$website_folder/index.html?model=$model_path"
+              --headless=new --virtual-time-budget=5000 --screenshot="test.png" \
+              "file://$website_folder/index.html?model=$model_path&noSlider=true"
             mv "test.png" "$website_folder/$model_png_path"
           done
           rm -rf "$website_folder/__chrome"

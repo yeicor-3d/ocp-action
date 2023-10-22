@@ -21,7 +21,7 @@ def show_object(obj: Union[cq.Workplane, cq.Shape], name: Optional[str] = None,
     os.makedirs(out_dir, exist_ok=True)
 
     # Convert Z-up to Y-up (more common?)
-    obj = obj.rotateAboutCenter((1, 0, 0), -90)
+    # obj = obj.rotateAboutCenter((1, 0, 0), -90)
 
     # For each wanted format
     for fmt in wanted_formats:
