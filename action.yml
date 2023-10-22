@@ -102,7 +102,7 @@ runs:
         first_model_poster_path=""
         for model_path in $gltf_models; do
           model_name=$(basename "$model_path" .gltf)
-          model_poster_path="$(echo "$model_path" | sed 's,.gltf,.$poster_extension,g')"
+          model_poster_path="$(echo "$model_path" | sed "s,.gltf,.$poster_extension,g")"
           selected=""
           if [ "$models_html" = "" ]; then
             selected=" selected"
