@@ -41,11 +41,7 @@ def show_object(obj: Union[cq.Workplane, cq.Shape], name: Optional[str] = None,
             # Add color if specified
             color = None
             if "color" in (options or {}):
-                tmp_color = options["color"]
-                if tmp_color is str:
-                    color = cq.Color(tmp_color)
-                elif len(tmp_color) == 3:
-                    color = cq.Color(*tmp_color, a=options["alpha"] if "alpha" in options else 1)
+                color = cq.Color(*options["color"], a=options["alpha"] if "alpha" in options else 1)
 
             # Create a fake assembly just to export it as gltf
             cq.Assembly(obj, color=color, name=model_path).save(model_path)
