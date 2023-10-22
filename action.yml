@@ -48,7 +48,7 @@ runs:
           cp "${{ github.action_path }}/cadquery_action_api.py" "$(dirname "$script")"
         
           # Inject our import to define the show() function
-          sed -i '1s/^/from .cadquery_action_api import *\n/' $script
+          sed -i '1s/^/from cadquery_action_api import *\n/' $script
         
           # Define environment variables for the script
           export CQ_ACTION_OUT_DIR="$base_folder/$(basename "$script" .py)"
