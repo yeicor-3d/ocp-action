@@ -91,6 +91,12 @@ runs:
         mkdir -p "$website_folder/models"
         cp -r "${{ steps.build.outputs.models-folder }}/"* "$website_folder/models"
         
+        # If taking screenshots, use them as posters instead of plans
+        poster_extension="svg"
+        if [ "${{ inputs.website-screenshot }}" = "true" ]; then
+          poster_extension="png"
+        fi
+        
         # Get all available glTF models as relative paths, and generate the HTML for them
         gltf_models=$(cd "$website_folder" && find  -name "*.gltf")
         models_html=""
@@ -98,7 +104,7 @@ runs:
         first_model_poster_path=""
         for model_path in $gltf_models; do
           model_name=$(basename "$model_path" .gltf)
-          model_poster_path="$(echo "$model_path" | sed 's,.gltf,.svg,g')"
+          model_poster_path="$(echo "$model_path" | sed 's,.gltf,.$poster_extension,g')"
           selected=""
           if [ "$models_html" = "" ]; then
             selected=" selected"
@@ -142,7 +148,7 @@ runs:
               window.switchSrc = (element, path) => {
                 // const path = "../../assets/ShopifyModels/" + name;
                 modelViewer.src = path;
-                modelViewer.poster = path.replace(".gltf", ".svg");
+                modelViewer.poster = path.replace(".gltf", ".$poster_extension");
                 const slides = document.querySelectorAll(".slide");
                 slides.forEach((element) => {element.classList.remove("selected");});
                 element.classList.add("selected");
@@ -223,12 +229,12 @@ runs:
           find $website_folder
           for model_path in $gltf_models; do
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
-            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir="$website_folder/chrome" \
+            chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir="$website_folder/__chrome" \
               --headless=new --virtual-time-budget=5000 --screenshot="test.png" \
               "file://$website_folder/index.html?model=$model_path"
             mv "test.png" "$website_folder/$model_png_path"
           done
-          rm -rf "$website_folder/chrome"
+          rm -rf "$website_folder/__chrome"
         fi
         
         # Copy website content to the models folder
