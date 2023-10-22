@@ -20,36 +20,45 @@ def show_object(obj: Union[cq.Workplane, cq.Shape], name: Optional[str] = None,
     # Create the output directory
     os.makedirs(out_dir, exist_ok=True)
 
+    # Convert Z-up to Y-up (more common?)
+    obj = obj.rotateAboutCenter((1, 0, 0), -90)
+
     # For each wanted format
     for fmt in wanted_formats:
 
         # Export the model in the wanted format
-        model_name = f"{out_dir}/{name}.{fmt.lower()}"
+        model_path = f"{out_dir}/{name}.{fmt.lower()}"
         # Avoid collisions
-        for i in range(1, 100):
-            if not os.path.exists(model_name):
+        for i in range(1, 1000):
+            if not os.path.exists(model_path):
                 break
-            model_name = f"{out_dir}/{name}-{i}.{fmt.lower()}"
-        print(f"Exporting {model_name}...")
+            model_path = f"{out_dir}/{name}-{i}.{fmt.lower()}"
+        print(f"Exporting {model_path}...")
+        if os.path.exists(model_path):
+            print(f"WARNING: {model_path} already exists, overwriting it...")
 
         if fmt == "GLTF":  # Only assemblies support GLTF
-            color = None  # Only assemblies support colors
+            # Add color if specified
+            color = None
             if "color" in (options or {}):
                 tmp_color = options["color"]
                 if tmp_color is str:
                     color = cq.Color(tmp_color)
                 elif len(tmp_color) == 3:
                     color = cq.Color(*tmp_color, a=options["alpha"] if "alpha" in options else 1)
-            cq.Assembly(obj, color=color).save(model_name)
+
+            # Create a fake assembly just to export it as gltf
+            cq.Assembly(obj, color=color, name=model_path).save(model_path)
+
         else:  # Default export
             # noinspection PyTypeChecker
-            cq.exporters.export(obj, model_name, fmt)
+            cq.exporters.export(obj, model_path, fmt)
 
             # Fix SVG files forcing a white background
             if fmt == "SVG":
-                with open(model_name, "r") as f:
+                with open(model_path, "r") as f:
                     svg = f.read()
-                with open(model_name, "w") as f:
+                with open(model_path, "w") as f:
                     f.write(svg.replace(
                         "<g ", '<rect width="99999999%" height="99999999%" fill="white"/><g ', 1))
 
@@ -71,13 +80,13 @@ def debug(*args, **kwargs) -> None:
         args = list(args)
         args[1] = "debug-" + args[1]
     else:
-        args = list(*args)
+        args = list(args)
         args.append(f"debug-{time.time()}")
-    # Force the color to be red and alpha to 0.1
+    # Force the color to be red with transparency
     if "options" in kwargs:
         kwargs["options"]["color"] = (1, 0, 0)
         kwargs["options"]["alpha"] = 0.5
     else:
-        kwargs["options"] = {"color": (1, 0, 0), "alpha": 0.1}
+        kwargs["options"] = {"color": (1, 0, 0), "alpha": 0.5}
     # Call the show_object function
     return show_object(*args, **kwargs)
