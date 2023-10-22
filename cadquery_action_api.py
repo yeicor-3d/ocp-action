@@ -7,7 +7,7 @@ import cadquery as cq
 # Retrieve the options
 out_dir = os.getenv("CQ_ACTION_OUT_DIR", ".")
 def_name = os.getenv("CQ_ACTION_DEF_NAME", "model")
-wanted_formats = os.getenv("CQ_ACTION_WANTED_FORMATS", "STL|SVG").split("|")
+wanted_formats = os.getenv("CQ_ACTION_WANTED_FORMATS", "STL|GLTF|SVG").split("|")
 print(f"cadquery_action_api.py: out_dir={out_dir}, def_name={def_name}, wanted_formats={wanted_formats}")
 
 
@@ -68,7 +68,7 @@ def debug(*args, **kwargs) -> None:
     if "name" in kwargs:
         kwargs["name"] = "debug-" + kwargs["name"]
     elif len(args) > 1:
-        args = list(*args)
+        args = list(args)
         args[1] = "debug-" + args[1]
     else:
         args = list(*args)

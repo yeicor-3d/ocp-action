@@ -51,12 +51,12 @@ runs:
           sed -i '1s/^/from cadquery_action_api import *\n/' $script
         
           # Define environment variables for the script
-          export CQ_ACTION_OUT_DIR="$base_folder/$(basename "$script" .py)"
-          export CQ_ACTION_SCRIPT_NAME="$script"
+          export CQ_ACTION_OUT_DIR="$base_folder/$(realpath --relative-to="$GITHUB_WORKSPACE" "$(dirname "$script")")/$(basename "$script" .py)"
+          export CQ_ACTION_DEF_NAME="$(basename "$script" .py)"
           export CQ_ACTION_WANTED_FORMATS="${{ inputs.formats }}"
         
           # Build the model(s)
-          python $script
+          python "$script"
         
           # Save the folder
           all_model_folders="$all_model_folders|$CQ_ACTION_OUT_DIR"
