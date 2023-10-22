@@ -44,19 +44,25 @@ def show_object(obj: Union[cq.Workplane, cq.Shape], name: Optional[str] = None,
                 color = cq.Color(*options["color"], a=options["alpha"] if "alpha" in options else 1)
 
             # Create a fake assembly just to export it as gltf
-            cq.Assembly(obj, color=color, name=model_path).save(model_path)
+            try:
+                cq.Assembly(obj, color=color, name=model_path).save(model_path)
+            except Exception as e:
+                print(f"::warning ::Couldn't export {model_path} due to {e}")
 
         else:  # Default export
-            # noinspection PyTypeChecker
-            cq.exporters.export(obj, model_path, fmt)
+            try:
+                # noinspection PyTypeChecker
+                cq.exporters.export(obj, model_path, fmt)
 
-            # Fix SVG files forcing a white background
-            if fmt == "SVG":
-                with open(model_path, "r") as f:
-                    svg = f.read()
-                with open(model_path, "w") as f:
-                    f.write(svg.replace(
-                        "<g ", '<rect width="99999999%" height="99999999%" fill="white"/><g ', 1))
+                # Fix SVG files forcing a white background
+                if fmt == "SVG":
+                    with open(model_path, "r") as f:
+                        svg = f.read()
+                    with open(model_path, "w") as f:
+                        f.write(svg.replace(
+                            "<g ", '<rect width="99999999%" height="99999999%" fill="white"/><g ', 1))
+            except Exception as e:
+                print(f"::warning ::Couldn't export {model_path} due to {e}")
 
         # TODO: Support animations (.gif or .gltf) as a special option with a parametrized time variable
 
