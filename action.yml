@@ -236,7 +236,7 @@ runs:
           for model_path in $gltf_models; do
             model_png_path="$(echo "$model_path" | sed 's,.gltf,.png,g')"
             chromium-browser --headless --disable-gpu --disable-web-security --user-data-dir="$website_folder/__chrome" \
-              --headless=new --virtual-time-budget=2500 --screenshot="test.png" \
+              --headless=new --virtual-time-budget=10 --screenshot="test.png" \
               "file://$website_folder/index.html?model=$model_path&noSlider=true"
             mv "test.png" "$website_folder/$model_png_path"
           done
