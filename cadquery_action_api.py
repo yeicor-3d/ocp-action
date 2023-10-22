@@ -61,12 +61,6 @@ def show_object(obj: Union[cq.Workplane, cq.Shape], name: Optional[str] = None,
         # TODO: Support animations (.gif or .gltf) as a special option with a parametrized time variable
 
 
-def show(*args, **kwargs) -> None:
-    """Emulates the cq-editor API to build the models instead."""
-    # Call the show_object function
-    return show_object(*args, **kwargs)
-
-
 def debug(*args, **kwargs) -> None:
     """Emulates the cq-editor API to build the models instead."""
     # Force the name to be debug-<name>
