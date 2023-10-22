@@ -246,6 +246,3 @@ runs:
     - name: "Deploy website artifact to GitHub Pages"
       if: "${{ inputs.website != '' }}"
       uses: "actions/deploy-pages@v2"
-      with:
-        error_count: "100"
-        timeout: "6000000"
