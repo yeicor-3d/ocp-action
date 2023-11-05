@@ -1,4 +1,4 @@
-# CadQuery action
+# OCP action
 
 GitHub Action that builds [OCP](https://github.com/CadQuery/OCP) models ([CadQuery](https://github.com/CadQuery/cadquery)/[Build123d](https://github.com/gumyr/build123d)/...), renders them and sets up a model viewer on Github Pages.
 
@@ -46,6 +46,6 @@ the [build artifacts](https://github.com/Yeicor/ocp-action/actions/workflows/ci.
 
 ### Demo: [build123d_tea_cup.py](demos/build123d_tea_cup.py)
 
-[![Demo](https://yeicor.github.io/ocp-action/models/demos/build123d/tea_cup.png)](https://yeicor.github.io/ocp-action/?model=models/demos/build123d/tea_cup.gltf)
+[![Demo](https://yeicor.github.io/ocp-action/models/demos/build123d_tea_cup/tea_cup.png)](https://yeicor.github.io/ocp-action/?model=models/demos/build123d_tea_cup/tea_cup.gltf)
 
-![Demo](https://yeicor.github.io/ocp-action/models/demos/build123d/tea_cup.svg)
+![Demo](https://yeicor.github.io/ocp-action/models/demos/build123d_tea_cup/tea_cup.svg)
