@@ -1,5 +1,5 @@
-name: "Cadquery Action"
-description: "Builds and optionally renders cadquery models. It may also build a static website for GitHub Pages."
+name: "OCP Action"
+description: "Builds and optionally renders OCP (CadQuery/build123d/...) models. It may also build a static website for GitHub Pages."
 inputs:
   scripts:
     description: "The |-separated scripts containing the model(s) to build."
@@ -25,7 +25,7 @@ runs:
   using: "composite"
   steps:
 
-    - name: "Install cadquery"
+    - name: "Install CadQuery for exporting OCP models"
       shell: "bash"
       run: "pip install -r requirements.txt"
 
@@ -45,21 +45,21 @@ runs:
         for script in $(echo "${{ inputs.scripts }}" | tr "|" "\n"); do
         
           # Copy the library to the script's folder
-          cp "${{ github.action_path }}/cadquery_action_api.py" "$(dirname "$script")"
+          cp "${{ github.action_path }}/__ocp_action_api.py" "$(dirname "$script")"
         
           # Inject our import to define the show() function
-          sed -i '1s/^/from cadquery_action_api import *\n/' $script
+          sed -i '1s/^/from __ocp_action_api import *\n/' $script
         
           # Define environment variables for the script
-          export CQ_ACTION_OUT_DIR="$base_folder/$(realpath --relative-to="$GITHUB_WORKSPACE" "$(dirname "$script")")/$(basename "$script" .py)"
-          export CQ_ACTION_DEF_NAME="$(basename "$script" .py)"
-          export CQ_ACTION_WANTED_FORMATS="${{ inputs.formats }}"
+          export OCP_ACTION_OUT_DIR="$base_folder/$(realpath --relative-to="$GITHUB_WORKSPACE" "$(dirname "$script")")/$(basename "$script" .py)"
+          export OCP_ACTION_DEF_NAME="$(basename "$script" .py)"
+          export OCP_ACTION_WANTED_FORMATS="${{ inputs.formats }}"
         
           # Build the model(s)
           python "$script"
         
           # Save the folder
-          all_model_folders="$all_model_folders|$CQ_ACTION_OUT_DIR"
+          all_model_folders="$all_model_folders|$OCP_ACTION_OUT_DIR"
         done
         
         # Remove the first | from the list

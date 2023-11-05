@@ -26,16 +26,19 @@ jobs:
       # Checkout your repository
       - uses: "actions/checkout@v4"
 
-      # Optional: Install your preferred Python version and dependencies and set up caches
+      # Optional: Install your preferred Python version and set up caches
       - uses: "actions/setup-python@v4"
         with:
           python-version: "3.11"
           cache: "pip"
 
+      # Optional: Install your preferred Python packages
+      - run: "pip install -r demos/requirements.txt"
+
       # Run the action
-      - uses: "./" # Yeicor/cadquery-action@v<version>
+      - uses: "./" # Yeicor/ocp-action@v<version>
         with:
-          scripts: "demos/box.py|demos/cycloidal_gear.py|demos/parametric_enclosure.py"
+          scripts: "demos/box.py|demos/cycloidal_gear.py|demos/parametric_enclosure.py|demos/build123d_tea_cup.py"
           # formats: "STL|STEP|AMF|SVG|TJS|DXF|VRML|VTP|3MF|GLTF"
           # website: "."
           # website-screenshot: "true"
