@@ -1,5 +1,9 @@
 name: "OCP Action"
-description: "Builds and optionally renders OCP (CadQuery/build123d/...) models. It may also build a static website for GitHub Pages."
+author: "Yeicor"
+description: "GitHub Action that builds OCP models (CadQuery/Build123d/...), renders them and sets up a model viewer on Github Pages."
+branding:
+  icon: "package"
+  color: "yellow"
 inputs:
   scripts:
     description: "The |-separated scripts containing the model(s) to build."
