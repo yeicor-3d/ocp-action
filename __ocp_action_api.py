@@ -85,6 +85,8 @@ def show_object(obj: Union[TopoDS_Shape, WrappedShape, WrappedPartShape, cq.Work
 
         # TODO: Support animations (.gif or .gltf) as a special option with a parametrized time variable
 
+# show() is an alias of show_object() for basic compatibility with ocp-vscode
+show = show_object
 
 def debug(*args, **kwargs) -> None:
     """Emulates the cq-editor API to build the models instead."""
