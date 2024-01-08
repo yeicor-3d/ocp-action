@@ -13,6 +13,14 @@ inputs:
     description: "The |-separated formats in which to build all model(s)."
     required: false
     default: "STL|STEP|AMF|SVG|TJS|DXF|VRML|VTP|3MF|GLTF"
+  tolerance:
+    description: "The tolerance to use when building the model(s)."
+    required: false
+    default: "0.1"
+  angular_tolerance:
+    description: "The angular tolerance to use when building the model(s)."
+    required: false
+    default: "0.1"
   website:
     description: "Relative path where a static website to visualize the models using GitHub Pages will be built. Models and renders will be available at <website>/<models>/... Disabled if empty."
     required: false
@@ -58,6 +66,8 @@ runs:
           export OCP_ACTION_OUT_DIR="$base_folder/$(realpath --relative-to="$GITHUB_WORKSPACE" "$(dirname "$script")")/$(basename "$script" .py)"
           export OCP_ACTION_DEF_NAME="$(basename "$script" .py)"
           export OCP_ACTION_WANTED_FORMATS="${{ inputs.formats }}"
+          export OCP_ACTION_TOLERANCE="${{ inputs.tolerance }}"
+          export OCP_ACTION_ANGULAR_TOLERANCE="${{ inputs.angular_tolerance }}"
         
           # Build the model(s)
           python "$script"
