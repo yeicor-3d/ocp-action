@@ -12,6 +12,7 @@ wanted_formats = os.getenv(
     "OCP_ACTION_WANTED_FORMATS", "STL|GLTF|SVG").split("|")
 tolerance = float(os.getenv("OCP_ACTION_TOLERANCE", "0.1"))
 angular_tolerance = float(os.getenv("OCP_ACTION_ANGULAR_TOLERANCE", "0.1"))
+y_up = os.getenv("OCP_ACTION_Y_UP", "true").lower() == "true"
 
 
 class WrappedShape:
@@ -41,8 +42,9 @@ def show_object(obj: Union[TopoDS_Shape, WrappedShape, WrappedPartShape, cq.Work
     # Create the output directory
     os.makedirs(out_dir, exist_ok=True)
 
-    # Convert Z-up to Y-up (more common?)
-    # obj = obj.rotateAboutCenter((1, 0, 0), -90)
+    # Convert Z-up to Y-up if needed
+    if y_up:
+        obj = obj.rotate((0,0,0),(1,0,0),-90) # CQ Shape rotate method
 
     # For each wanted format
     for fmt in wanted_formats:

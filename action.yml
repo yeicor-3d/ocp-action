@@ -21,6 +21,10 @@ inputs:
     description: "The angular tolerance to use when building the model(s)."
     required: false
     default: "0.1"
+  y-up:
+    description: "If true, all model(s) are converted from Z-up to Y-up."
+    required: false
+    default: "false"
   website:
     description: "Relative path where a static website to visualize the models using GitHub Pages will be built. Models and renders will be available at <website>/<models>/... Disabled if empty."
     required: false
@@ -68,6 +72,7 @@ runs:
           export OCP_ACTION_WANTED_FORMATS="${{ inputs.formats }}"
           export OCP_ACTION_TOLERANCE="${{ inputs.tolerance }}"
           export OCP_ACTION_ANGULAR_TOLERANCE="${{ inputs.angular_tolerance }}"
+          export OCP_ACTION_Y_UP="${{ inputs.y-up }}"
         
           # Build the model(s)
           python "$script"
