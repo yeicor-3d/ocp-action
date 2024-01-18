@@ -44,6 +44,6 @@ jobs:
           # formats: "STL|STEP|AMF|SVG|TJS|DXF|VRML|VTP|3MF|GLTF"
           # tolerance: "0.1"
           # angular-tolerance: "0.1"
-          y_up: "true" # Defaults to false
+          y-up: "true" # Defaults to false
           # website: "."
           # website-screenshot: "true"
