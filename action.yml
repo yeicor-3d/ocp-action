@@ -75,7 +75,9 @@ runs:
           export OCP_ACTION_Y_UP="${{ inputs.y-up }}"
         
           # Build the model(s)
-          python "$script"
+          pushd "$(dirname "$script")"
+          python "$(basename "$script")"
+          popd
         
           # Save the folder
           all_model_folders="$all_model_folders|$OCP_ACTION_OUT_DIR"
