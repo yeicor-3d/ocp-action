@@ -1,5 +1,8 @@
 # OCP action
 
+> [!WARNING]  
+> This project has been superseded by [Yet Another CAD Viewer](https://github.com/yeicor-3d/yet-another-cad-viewer), and will no longer be actively maintained.
+
 GitHub Action that builds [OCP](https://github.com/CadQuery/OCP) models ([CadQuery](https://github.com/CadQuery/cadquery)/[Build123d](https://github.com/gumyr/build123d)/...), renders them and sets up a model viewer on Github Pages.
 
 ## Features
