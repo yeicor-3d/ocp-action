@@ -27,28 +27,28 @@ the [build artifacts](https://github.com/Yeicor/ocp-action/actions/workflows/ci.
 
 ### Demo: [box.py](demos/box.py)
 
-[![Demo](https://yeicor.github.io/ocp-action/models/demos/box/simple_box.png)](https://yeicor.github.io/ocp-action/?model=models/demos/box/simple_box.gltf)
+[![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/box/simple_box.png)](https://yeicor-3d.github.io/ocp-action/?model=models/demos/box/simple_box.gltf)
 
-![Demo](https://yeicor.github.io/ocp-action/models/demos/box/simple_box.svg)
+![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/box/simple_box.svg)
 
 ### Demo: [cycloidal_gear.py](demos/cycloidal_gear.py)
 
-[![Demo](https://yeicor.github.io/ocp-action/models/demos/cycloidal_gear/cycloidal_gear.png)](https://yeicor.github.io/ocp-action/?model=models/demos/cycloidal_gear/cycloidal_gear.gltf)
+[![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/cycloidal_gear/cycloidal_gear.png)](https://yeicor-3d.github.io/ocp-action/?model=models/demos/cycloidal_gear/cycloidal_gear.gltf)
 
-![Demo](https://yeicor.github.io/ocp-action/models/demos/cycloidal_gear/cycloidal_gear.svg)
+![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/cycloidal_gear/cycloidal_gear.svg)
 
 ### Demo: [parametric_enclosure.py](demos/parametric_enclosure.py)
 
-[![Demo](https://yeicor.github.io/ocp-action/models/demos/parametric_enclosure/topOfLid.png)](https://yeicor.github.io/ocp-action/?model=models/demos/parametric_enclosure/topOfLid.gltf)
+[![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/parametric_enclosure/topOfLid.png)](https://yeicor-3d.github.io/ocp-action/?model=models/demos/parametric_enclosure/topOfLid.gltf)
 
-[![Demo](https://yeicor.github.io/ocp-action/models/demos/parametric_enclosure/debug-bottom.png)](https://yeicor.github.io/ocp-action/?model=models/demos/parametric_enclosure/debug-bottom.gltf)
+[![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/parametric_enclosure/debug-bottom.png)](https://yeicor-3d.github.io/ocp-action/?model=models/demos/parametric_enclosure/debug-bottom.gltf)
 
-![Demo](https://yeicor.github.io/ocp-action/models/demos/parametric_enclosure/topOfLid.svg)
+![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/parametric_enclosure/topOfLid.svg)
 
-![Demo](https://yeicor.github.io/ocp-action/models/demos/parametric_enclosure/debug-bottom.svg)
+![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/parametric_enclosure/debug-bottom.svg)
 
 ### Demo: [build123d_tea_cup.py](demos/build123d_tea_cup.py)
 
-[![Demo](https://yeicor.github.io/ocp-action/models/demos/build123d_tea_cup/tea_cup.png)](https://yeicor.github.io/ocp-action/?model=models/demos/build123d_tea_cup/tea_cup.gltf)
+[![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/build123d_tea_cup/tea_cup.png)](https://yeicor-3d.github.io/ocp-action/?model=models/demos/build123d_tea_cup/tea_cup.gltf)
 
-![Demo](https://yeicor.github.io/ocp-action/models/demos/build123d_tea_cup/tea_cup.svg)
+![Demo](https://yeicor-3d.github.io/ocp-action/models/demos/build123d_tea_cup/tea_cup.svg)
